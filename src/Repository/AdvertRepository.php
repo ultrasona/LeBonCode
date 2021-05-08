@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Advert|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +15,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AdvertRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager,ManagerRegistry $registry)
     {
         parent::__construct($registry, Advert::class);
     }
+
+    
 
     // /**
     //  * @return Advert[] Returns an array of Advert objects
