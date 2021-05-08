@@ -79,8 +79,39 @@ class AdvertController extends AbstractController
 
         $entityManager->persist($advert);
         $entityManager->flush();
-        $answer         = json_encode($advert->toArray());
+        $answer = json_encode($advert->toArray());
 
+        return new Response($answer, Response::HTTP_OK);
+    }
+
+    /**
+    * @Route("/advert/{id}", name="delete_advert", methods={"DELETE"})
+    */
+    public function delete($id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $advert = $this->advertRepository->findOneBy(['id' => $id]);
+        if (!empty($advert)) {
+            $entityManager->remove($advert);
+            $entityManager->flush();
+        }
+        
+        return new Response('Advert deleted', Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+    * @Route("/advert", name="get_adverts", methods={"GET"})
+    */
+    public function getAll() : Response
+    {
+        $adverts = $this->advertRepository->findAll();
+        $answer = [];
+        $i = 0;
+        foreach($adverts as $advert) {
+           $answer[$i] = json_encode($advert->toArray());
+           $i++;
+        }
+        $answer = json_encode($answer);
         return new Response($answer, Response::HTTP_OK);
     }
 }
