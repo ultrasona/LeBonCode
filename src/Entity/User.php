@@ -20,6 +20,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Unique()
      */
     private $email;
 
@@ -34,6 +35,9 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @Assert\NotBlank()
+     */
     private $plainPassword;
 
     /**
@@ -166,5 +170,13 @@ class User implements UserInterface
         $this->phone_number = $phone_number;
 
         return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'email' => $this->getEmail(),
+        ];
     }
 }

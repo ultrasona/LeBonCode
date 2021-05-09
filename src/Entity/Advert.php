@@ -106,6 +106,7 @@ class Advert
 
         return $this;
     }
+    
     public function toArray()
     {
         return [
